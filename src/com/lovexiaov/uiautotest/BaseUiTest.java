@@ -1,43 +1,84 @@
 package com.lovexiaov.uiautotest;
 
-import android.util.Base64;
-import com.android.uiautomator.core.UiDevice;
-import com.android.uiautomator.core.UiObjectNotFoundException;
+import android.graphics.Point;
+import com.android.uiautomator.core.*;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
-
-import java.util.Arrays;
 
 
 public class BaseUiTest extends UiAutomatorTestCase {
 
-    public void testEnvIsOk() throws UiObjectNotFoundException {
-        UiDevice.getInstance().pressHome();
+    protected UiDevice device;
 
-//        Bundle params = getParams();
-//        String test = params.getString("test2");
-//        System.out.println("the param is: " + test);
-//        new UiObject(new UiSelector().text("")).setText("");
-//        sleep(5);
-//
-//        try {
-//            Runtime.getRuntime().exec("am start com.example.audioplayer/.AudioActivity");
-//        } catch (IOException e) {
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//        }
+    protected int pxWidth;
+    protected int pxHeight;
+    protected Point dpSize;
 
-//        String prog = "am start -n com.example.audioplayer/.AudioActivity";
-//        try {
-//            Process process = Runtime.getRuntime().exec(prog);
-//            process.waitFor();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
-        boolean b = getUiDevice().pressHome();
-        System.out.println("========" + b);
-//        System.out.println(Arrays.toString(Base64.decode("5bCP5pm6KDAwMUZFRik=", Base64.DEFAULT)));
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        device = getUiDevice();
+
+        dpSize = device.getDisplaySizeDp();
+
+        log("The display dp size is: %s * %s", dpSize.x, dpSize.y);
+
+        pxWidth = device.getDisplayWidth();
+        pxHeight = device.getDisplayHeight();
+
+        log("The display px size is: %s * %s", pxWidth, pxHeight);
+
+    }
+
+    protected boolean power() {
+        return device.pressKeyCode(26);
+    }
+
+    protected void log(String s, Object... args) {
+        String msg = String.format(s, args);
+        System.out.println(msg);
+    }
+
+    protected void home() {
+        device.pressHome();
+    }
+
+    protected void back() {
+        device.pressBack();
+    }
+
+    protected void swipeDown() {
+        device.swipe(pxWidth / 2, pxHeight / 2, pxWidth / 2, pxHeight, 10);
+    }
+
+    protected void swipeUp() {
+        device.swipe(pxWidth / 2, pxHeight / 2, pxWidth / 2, 0, 10);
+    }
+
+    protected void swipeBack() {
+        device.swipe(pxWidth / 2, pxHeight / 2, 0, pxHeight / 2, 10);
+    }
+
+    protected void swipeForward() {
+        device.swipe(pxWidth / 2, pxHeight / 2, pxWidth, pxHeight / 2, 10);
+    }
+
+    protected void clickItemByText(String text) throws UiObjectNotFoundException {
+        new UiScrollable(
+                new UiSelector().scrollable(true)
+        ).scrollIntoView(
+                new UiSelector().text(text)
+        );
+        new UiObject(
+                new UiSelector().text(text)
+        ).click();
+
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        device.pressHome();
+        device = null;
     }
 }
