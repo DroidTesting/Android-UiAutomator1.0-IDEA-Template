@@ -1,0 +1,6 @@
+{
+  "name": "Android-uiautomator1.0-idea-template",
+  "tagline": "Android UiAutomator 1.0 IDEA Template",
+  "body": "# Android-UiAutomator1.0-IDEA-Template\r\nAndroid UiAutomator 1.0 IDEA Template\r\n\r\n## Pre Required\r\n\r\n+ 你的电脑已经配置了 `ANDROID_HOME` 环境变量\r\n\r\n## Add Library\r\n\r\n在 Project Structure 中设置如下:\r\n\r\n+ 设置 JDk 版本:\r\n\r\n![设置 JDK 版本](http://lovexiaov.qiniudn.com/set_jdk.png)\r\n\r\n+ 添加 ${Your SDK Dir}/platforms/android-xx/android.jar&uiautomator.jar\r\n\r\n![添加 android.jar&uiautomator.jar](http://lovexiaov.qiniudn.com/add_library.png)\r\n\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
